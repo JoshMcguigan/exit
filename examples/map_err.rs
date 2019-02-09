@@ -2,7 +2,7 @@
 use exit::Exit;
 
 use std::env;
-use core::option;
+use std::option;
 
 #[derive(Debug)]
 enum MyErr {
