@@ -3,5 +3,9 @@ name = "exit"
 version = "0.1.0"
 authors = ["Josh Mcguigan"]
 edition = "2018"
+description = "Custom exit status codes with ? in main"
+repository = "https://github.com/JoshMcguigan/exit"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
