@@ -1,4 +1,4 @@
-# exit
+# exit [![crates.io badge](https://img.shields.io/crates/v/exit.svg)](https://crates.io/crates/exit)
 
 This crate exposes a type, `Exit`, which allows using `?` in `main` while also specifying custom exit status codes. 
 
