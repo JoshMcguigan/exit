@@ -10,6 +10,11 @@ pub enum Exit<T> {
     Err(T)
 }
 
+pub enum ExitWithMessage<T> {
+    Ok,
+    Err(T),
+}
+
 impl<T: Into<i32> + Debug> Termination for Exit<T> {
     fn report(self) -> i32 {
         match self {
@@ -17,6 +22,20 @@ impl<T: Into<i32> + Debug> Termination for Exit<T> {
             Exit::Err(err) => {
                 eprintln!("Error: {:?}", err);
                 err.into()
+            },
+        }
+    }
+}
+
+// todo rather than requiring string, allow anything which impls display
+impl<T: Into<(i32, String)>> Termination for ExitWithMessage<T> {
+    fn report(self) -> i32 {
+        match self {
+            ExitWithMessage::Ok => 0,
+            ExitWithMessage::Err(err) => {
+                let (exit_code, exit_message) = err.into();
+                eprintln!("{}", exit_message);
+                exit_code
             },
         }
     }
@@ -39,5 +58,25 @@ impl<T> Try for Exit<T> {
 
     fn from_ok(_: Self::Ok) -> Self {
         Exit::Ok
+    }
+}
+
+impl<T> Try for ExitWithMessage<T> {
+    type Ok = ();
+    type Error = T;
+
+    fn into_result(self) -> Result<Self::Ok, Self::Error> {
+        match self {
+            ExitWithMessage::Ok => Ok(()),
+            ExitWithMessage::Err(err) => Err(err)
+        }
+    }
+
+    fn from_error(err: Self::Error) -> Self {
+        ExitWithMessage::Err(err)
+    }
+
+    fn from_ok(_: Self::Ok) -> Self {
+        ExitWithMessage::Ok
     }
 }
