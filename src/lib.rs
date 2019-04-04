@@ -1,8 +1,10 @@
 #![feature(termination_trait_lib)]
 #![feature(try_trait)]
+extern crate failure;
+
+use failure::Fail;
 
 use std::process::Termination;
-use std::fmt::Debug;
 use std::ops::Try;
 
 pub enum Exit<T> {
@@ -10,12 +12,12 @@ pub enum Exit<T> {
     Err(T)
 }
 
-impl<T: Into<i32> + Debug> Termination for Exit<T> {
+impl<T: Into<i32> + Fail> Termination for Exit<T> {
     fn report(self) -> i32 {
         match self {
             Exit::Ok => 0,
             Exit::Err(err) => {
-                eprintln!("Error: {:?}", err);
+                eprintln!("Error: {}", err);
                 err.into()
             },
         }
