@@ -26,7 +26,7 @@ impl<T> Try for Exit<T> {
     type Ok = ();
     type Error = T;
 
-    fn into_result(self) -> Result<Self::Ok, Self::Error> {
+    fn into_result(self) -> Result<<Exit<T> as Try>::Ok, Self::Error> {
         match self {
             Exit::Ok => Ok(()),
             Exit::Err(err) => Err(err)
@@ -37,7 +37,7 @@ impl<T> Try for Exit<T> {
         Exit::Err(err)
     }
 
-    fn from_ok(_: Self::Ok) -> Self {
+    fn from_ok(_: <Exit<T> as Try>::Ok) -> Self {
         Exit::Ok
     }
 }
