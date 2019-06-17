@@ -1,6 +1,5 @@
 use exit::Exit;
 
-#[derive(Debug)]
 enum MyErr {
     OneLessThanZero,
     OneEqualsTwo,

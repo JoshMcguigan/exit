@@ -5,7 +5,6 @@ use std::env;
 use core::option;
 use core::num;
 
-#[derive(Debug)]
 enum MyErr {
     MissingArg,
     ParseIntError,

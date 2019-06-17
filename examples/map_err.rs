@@ -1,5 +1,5 @@
 #![feature(try_trait)]
-use exit::Exit;
+use exit::{Exit, ExitDisplay};
 
 use std::env;
 use std::option;
@@ -18,6 +18,14 @@ impl From<MyErr> for i32 {
             MyErr::ParseErrorUserNum => 3,
             MyErr::ParseErrorGroupNum => 4,
         }
+    }
+}
+
+// You can optionally implement ExitDisplay for your error type in order to print an error message
+// on exit
+impl ExitDisplay for MyErr {
+    fn display(&self) -> String {
+        format!("{:?}", self)
     }
 }
 
